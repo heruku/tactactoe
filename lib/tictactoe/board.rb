@@ -2,7 +2,8 @@ Indices = Struct.new(:row, :column)
 
 class Board < Array
   
-  def initialize(ary=Array.new(3){Array.new(3){Cell.new}})
+  def initialize(ary=nil)
+    ary ||= Array.new(3){Array.new(3){Cell.new}}
     super(ary)
   end
 
