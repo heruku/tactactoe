@@ -14,16 +14,16 @@ class ComputerPlayer < AbstractPlayer
   def rank_moves(game)
   moves = {}
     try_each_valid_move(game) do |game, index|
-      moves[index] = -negamax(game, -1)
+      moves[index] = -negamax(game)
     end
     moves
   end
 
-  def negamax(game, color, depth=@depth)
-    return color * get_score(game) if game.over? || depth == 0
+  def negamax(game, depth=@depth)
+    return get_score(game) if game.over? || depth == 0
     best_score = -Float::INFINITY
     try_each_valid_move(game) do |game|
-      best_score = [best_score, -negamax(game, -color, depth-1)].max
+      best_score = [best_score, negamax(game, depth-1)].max
     end
     return best_score
   end
