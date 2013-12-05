@@ -7,55 +7,27 @@ PRINT_BOARD = <<-STRING.chomp
                              * | * | * 
 
 
-                             
+
 STRING
 
 class GamePresenter
   attr_accessor :game
 
-  def print_board
-    system('clear')
-    print_board = PRINT_BOARD.dup
-    game.board.flatten.each do |cell|
-      print_board.sub!("*", cell.content)
-    end
-    puts "\n\n"
-    puts "                              #{game.turn.mark} turn"
-    puts print_board
-  end
-
-  def present_winner
-    puts "#{game.winner.mark} has Won!" if game.winner
-    puts "It is a tie" if !game.winner
-  end
-
-  def get_player(mark)
-    input = gets.chomp.to_i
-    if input == 1
-      player = ConsolePlayer.new(mark)
-    elsif input == 2
-      print "Select difficulty(1-easy, 2-impossible): "
-      input = gets.chomp.to_i
-      if input == 1
-        player = ComputerPlayer.new(4, mark)
-      elsif input == 2
-        player = ComputerPlayer.new(12, mark)
+  def start
+    system 'clear'
+    get_options
+    until game.over?
+      print_board
+      move = game.turn.get_move(game)
+      if game.valid_move?(move)
+        game.make_move(move.row, move.column)
       else
-        print "Invalid input, try again: "
-        get_player(mark)
+        puts "Invalid move"
+        sleep(0.5)
+        next
       end
-    else
-      print "Invalid input, try again: "
-      get_player(mark)
     end
-    player
-  end
-
-  def prompt_play_again
-    print "Do you want to play again?(y, n): "
-    input = gets.chomp
-    start if input == "y"
-    exit if input == "n"
+    print_results
   end
 
   def get_options
@@ -64,18 +36,53 @@ class GamePresenter
     print "Choose the second player(1-human, 2-computer): "
     player2 = get_player("O".red)
     @game = GameInteractor.new(player1: player1,
-                               player2: player2)
+     player2: player2)
   end
 
-  def start
-    system 'clear'
-    get_options
-    until game.over?
-      print_board
-      move = game.turn.get_move(game)
-      game.make_move(move.row, move.column)
+  def build_board
+    print_board = PRINT_BOARD.dup
+    game.board.flatten.each do |cell|
+      print_board.sub!("*", cell.content)
     end
-    present_winner
-    prompt_play_again
+    print_board
+  end
+
+  def print_board
+    system('clear')
+    console_board = build_board
+    puts "\n\n"
+    puts "                              #{game.turn.mark} turn"
+    puts console_board
+  end
+
+  def get_player(mark)
+    input = gets.chomp.to_i
+    if input == 1
+      player = ConsolePlayer.new(mark)
+    elsif input == 2
+      player = get_computer_player(mark)
+    else
+      print "Invalid input, try again: "
+      get_player(mark)
+    end
+    player
+  end
+
+  def print_results
+    puts "#{game.winner.mark} has Won!" if game.winner
+    puts "It is a tie" if !game.winner
+  end
+
+  def get_computer_player(mark)
+    print "Select difficulty(1-easy, 2-hard): "
+    input = gets.chomp.to_i
+    if input == 1
+      player = ComputerPlayer.new(:easy, mark)
+    elsif input == 2
+      player = ComputerPlayer.new(:hard, mark)
+    else
+      print "Invalid input, try again: "
+      get_computer_player(mark)
+    end
   end
 end

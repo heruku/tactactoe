@@ -34,6 +34,16 @@ class GameInteractor
     players.first
   end
 
+  def valid_move?(move)
+    valid_moves.include?(move)
+  end
+
+  def copy
+    new_game = self.dup
+    new_game.board = Board.from_char_ary(self.board.flat_map(&:to_s))
+    new_game
+  end
+
   private
 
   def draw?
