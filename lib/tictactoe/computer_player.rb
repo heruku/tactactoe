@@ -4,7 +4,7 @@ class ComputerPlayer < AbstractPlayer
     when :easy
       @depth = 4
     when :hard
-      @depth = 12
+      @depth = 5
     end
     super(mark)
   end
