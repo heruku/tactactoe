@@ -42,12 +42,4 @@ describe Board do
     end
   end
 
-  # describe 'diagonals' do
-  #   it 'returns the diagonals for the board' do
-  #     board = Board.from_char_ary([["X", "O", "X"],
-  #                                  ["O", " ", "O"],
-  #                                  ["O", "X", "X"]] )
-  #     board.diagonals.should eq [[Cell.new("X"), Cell.new, Cell.new("X")], [Cell.new("X"), Cell.new(" "), Cell.new("O")]]
-  #   end
-  # end
 end

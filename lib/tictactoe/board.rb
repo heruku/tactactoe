@@ -22,13 +22,16 @@ class Board < Array
   end
 
   def diagonals
-    (0..2).map do |n|
-      [ self[n][n], self[n][-(n+1)] ]
-    end
-    .transpose
+    [diagonal(self), diagonal(self.map(&:reverse))]
   end
 
   def columns
     self.transpose
+  end
+
+  private
+
+  def diagonal(ary)
+    (0..2).map {|i| ary[i][i]}
   end
 end
