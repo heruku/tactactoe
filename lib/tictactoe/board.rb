@@ -31,9 +31,4 @@ class Board < Array
   def columns
     self.transpose
   end
-
-  # For testing purposes
-  def self.from_char_ary(ary)
-    new(ary.flatten.map{|char| Cell.new(char)}.each_slice(3).to_a)
-  end
 end

@@ -30,9 +30,9 @@ describe GameInteractor do
     end
 
     context 'horizontal win' do
-      let(:board) { Board.from_char_ary([["X", "X", "X"],
-        [" ", " ", " "],
-        [" ", " ", " "]]) }
+      let(:board) {       from_char_ary([["X", "X", "X"],
+                                         [" ", " ", " "],
+                                         [" ", " ", " "]]) }
       before{ game.board = board }
 
 
@@ -47,10 +47,9 @@ describe GameInteractor do
     end
 
     context 'vertical win' do
-      let(:board) { Board.from_char_ary([["O", " ", " "],
-                                         ["O", " ", " "],
-                                         ["O", " ", " "]]) }
-      before{ game.board = board }
+      before do 
+        game.board.stub(:columns).and_return([[Cell.new("O"), Cell.new("O"), Cell.new("O")]])
+      end
 
       it 'is truthy' do
         game.over?.should eq true
@@ -63,10 +62,9 @@ describe GameInteractor do
     end
 
     context 'diagonal win' do
-      let(:board) { Board.from_char_ary([["X", " ", " "],
-                                         ["O", "X", " "],
-                                        ["O", " ", "X"]]) }
-      before{ game.board = board }
+      before do  
+        game.board.stub(:diagonals).and_return([[Cell.new("X"), Cell.new("X"), Cell.new("X")]])
+      end
 
       it 'is truthy' do
         game.over?.should eq true
@@ -79,10 +77,10 @@ describe GameInteractor do
     end
 
     context 'draw' do
-      let(:board) { Board.from_char_ary([["X", "O", "X"],
-                                      ["O", "O", "X"],
-                                      ["X", "X", "O"]]) }
-      before{ game.board = board }
+      before do
+        game.stub(:win?).and_return(:false)
+        game.stub(:board).and_return([[Cell.new("X"), Cell.new("O"), Cell.new("X")]])
+      end
 
       it 'recognises draw when all cells are marked' do
 

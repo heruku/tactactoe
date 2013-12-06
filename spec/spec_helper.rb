@@ -6,3 +6,7 @@ RSpec.configure do |config|
 
   config.order = 'random'
 end
+
+ def from_char_ary(ary)
+    Board.new(ary.flatten.map{|char| Cell.new(char)}.each_slice(3).to_a)
+ end
