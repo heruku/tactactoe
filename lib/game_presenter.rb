@@ -1,10 +1,10 @@
 PRINT_BOARD = <<-STRING.chomp
 
-                             * | * | * 
+                             * | * | *
                             ---|---|---
-                             * | * | * 
+                             * | * | *
                             ---|---|---
-                             * | * | * 
+                             * | * | *
 
 
 
@@ -15,6 +15,7 @@ class GamePresenter
 
   def start
     system 'clear'
+
     get_options
     until game.over?
       print_board
@@ -27,6 +28,7 @@ class GamePresenter
         next
       end
     end
+    print_board
     print_results
   end
 
