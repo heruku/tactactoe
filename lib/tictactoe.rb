@@ -1,6 +1,4 @@
 require 'colored'
-require_relative 'tictactoe/cell'
-require_relative 'tictactoe/board'
 require_relative 'tictactoe/abstract_player'
 require_relative 'tictactoe/computer_player'
 require_relative 'tictactoe/game_interactor'

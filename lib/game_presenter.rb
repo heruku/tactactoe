@@ -21,7 +21,7 @@ class GamePresenter
       print_board
       move = game.turn.get_move(game)
       if game.valid_move?(move)
-        game.make_move(move.row, move.column)
+        game.make_move(move)
       else
         puts "Invalid move"
         sleep(0.5)
@@ -38,13 +38,13 @@ class GamePresenter
     print "Choose the second player(1-human, 2-computer): "
     player2 = get_player("O".red)
     @game = GameInteractor.new(player1: player1,
-     player2: player2)
+                               player2: player2)
   end
 
   def build_board
     print_board = PRINT_BOARD.dup
-    game.board.flatten.each do |cell|
-      print_board.sub!("*", cell.content)
+    game.board.each do |cell|
+      print_board.sub!("*", cell)
     end
     print_board
   end

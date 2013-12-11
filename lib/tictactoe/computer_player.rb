@@ -38,9 +38,9 @@ class ComputerPlayer < AbstractPlayer
 
   def try_each_valid_move(game)
     game.valid_moves.shuffle.each do |index|
-      game.make_move(index.row, index.column)
+      game.make_move(index)
       yield(game,index)
-      game.undo_move(index.row, index.column)
+      game.undo_move(index)
     end
   end
 end

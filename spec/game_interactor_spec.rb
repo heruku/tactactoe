@@ -2,7 +2,7 @@ require 'spec_helper'
 describe GameInteractor do
   let(:player1) { double() }
   let(:player2) { double() }
-  subject(:game) { GameInteractor.new(player1: player1, 
+  subject(:game) { GameInteractor.new(player1: player1,
                                       player2: player2) }
   before do
     player1.stub(mark: "X")
@@ -12,12 +12,12 @@ describe GameInteractor do
 
   describe '#make_move' do
     it 'marks the correct cell' do
-      game.board[1][1].should_receive(:mark).with("X")
-      game.make_move(1, 1)
+      game.make_move(1)
+      game.board[1].should eq "X"
     end
 
     it 'switches the turn' do
-      game.make_move(1, 1)
+      game.make_move(1)
       game.turn.should eq player2
     end
   end
@@ -30,9 +30,9 @@ describe GameInteractor do
     end
 
     context 'horizontal win' do
-      let(:board) {       from_char_ary([["X", "X", "X"],
-                                         [" ", " ", " "],
-                                         [" ", " ", " "]]) }
+      let(:board) {        ["X", "X", "X",
+                            " ", " ", " ",
+                            " ", " ", " "] }
       before{ game.board = board }
 
 
@@ -47,8 +47,8 @@ describe GameInteractor do
     end
 
     context 'vertical win' do
-      before do 
-        game.board.stub(:columns).and_return([[Cell.new("O"), Cell.new("O"), Cell.new("O")]])
+      before do
+        game.stub(:columns).and_return(["O", "O", "O"])
       end
 
       it 'is truthy' do
@@ -62,8 +62,8 @@ describe GameInteractor do
     end
 
     context 'diagonal win' do
-      before do  
-        game.board.stub(:diagonals).and_return([[Cell.new("X"), Cell.new("X"), Cell.new("X")]])
+      before do
+        game.stub(:diagonals).and_return(["X", "X", "X"])
       end
 
       it 'is truthy' do
@@ -79,7 +79,7 @@ describe GameInteractor do
     context 'draw' do
       before do
         game.stub(:win?).and_return(:false)
-        game.stub(:board).and_return([[Cell.new("X"), Cell.new("O"), Cell.new("X")]])
+        game.stub(:board).and_return(["X", "X", "O"])
       end
 
       it 'recognises draw when all cells are marked' do
