@@ -1,15 +1,14 @@
-class GameInteractor
+class Game
   attr_reader :player1, :player2, :winner, :players
   attr_accessor :board
-  EMPTY = " "
-  DEFAULTS = {board: Array.new(9){EMPTY}}
+  DEFAULTS = {board: (1..9).to_a.map(&:to_s)}
 
   def initialize(opts)
     opts = DEFAULTS.merge(opts)
     @board   = opts.fetch(:board)
     @player1 = opts.fetch(:player1)
     @player2 = opts.fetch(:player2)
-    @players = [@player1, @player2]
+    @players = opts.fetch(:players, [@player1, @player2])
     @winner  = nil
   end
 
@@ -19,13 +18,13 @@ class GameInteractor
   end
 
   def undo_move(index)
-    board[index] = EMPTY
+    board[index] = "0"
     switch_turn
   end
 
   def valid_moves
     board.map.with_index do |cell, index|
-      index if cell == EMPTY
+      index unless (cell == player1.mark || cell == player2.mark)
     end
     .compact
   end
@@ -40,6 +39,13 @@ class GameInteractor
 
   def valid_move?(move)
     valid_moves.include?(move)
+  end
+
+  def copy
+    GameInteractor.new( player1: player1,
+                        player2: player2,
+                        players: players,
+                        board: board.dup )
   end
 
 

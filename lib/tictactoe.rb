@@ -1,6 +1,6 @@
 require 'colored'
 require_relative 'tictactoe/abstract_player'
 require_relative 'tictactoe/computer_player'
-require_relative 'tictactoe/game_interactor'
+require_relative 'tictactoe/game'
 require_relative 'console_player'
 require_relative 'game_presenter'

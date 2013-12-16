@@ -12,8 +12,8 @@ class ComputerPlayer < AbstractPlayer
   def get_move(game)
     best_score = -Float::INFINITY
     best_index = game.valid_moves.sample
-    try_each_valid_move(game) do |game, index|
-      score = -negamax(game, -1)
+    try_each_valid_move(game.copy) do |game, index|
+      score = -negamax(game, -1, -Float::INFINITY, Float::INFINITY)
       best_score, best_index = score, index if score > best_score
     end
     return best_index
@@ -21,11 +21,14 @@ class ComputerPlayer < AbstractPlayer
 
   private
 
-  def negamax(game, color, depth=@depth)
+  def negamax(game, color, alpha, beta, depth=@depth)
     return color * get_score(game) if game.over? || depth == 0
     best_score = -Float::INFINITY
-    try_each_valid_move(game) do |game|
-      best_score = [best_score, -negamax(game, -color, depth-1)].max
+    try_each_valid_move(game.copy) do |game|
+      score = -negamax(game, -color, -alpha, -beta, depth-1)
+      best_score = [best_score, score].max
+      alpha = [score, alpha].max
+      break if alpha >= beta
     end
     return best_score
   end

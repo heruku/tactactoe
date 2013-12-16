@@ -37,7 +37,7 @@ class GamePresenter
     player1 = get_player("X".blue)
     print "Choose the second player(1-human, 2-computer): "
     player2 = get_player("O".red)
-    @game = GameInteractor.new(player1: player1,
+    @game = Game.new(player1: player1,
                                player2: player2)
   end
 
