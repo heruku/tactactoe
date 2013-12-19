@@ -1,6 +1,6 @@
 class Game
-  attr_reader :player1, :player2, :winner, :players
-  attr_accessor :board
+  attr_reader :player1, :player2, :winner
+  attr_accessor :board, :players
   DEFAULTS = {board: (1..9).to_a.map(&:to_s)}
 
   def initialize(opts)

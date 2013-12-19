@@ -4,7 +4,7 @@ class ComputerPlayer < AbstractPlayer
     when :easy
       @depth = 4
     when :hard
-      @depth = 12
+      @depth = 5
     end
     super(mark)
   end
@@ -31,9 +31,9 @@ class ComputerPlayer < AbstractPlayer
   end
 
   def get_score(game)
-    return 1.0 if game.winner == self
-    return -1.0 if game.winner == (game.players - [self]).first
-    return 0.0
+    return 1 if game.winner == self
+    return -1 if game.winner == (game.players - [self]).first
+    return 0
   end
 
   def try_each_valid_move(game)

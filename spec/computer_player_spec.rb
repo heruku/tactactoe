@@ -1,29 +1,40 @@
 require 'spec_helper'
 
 describe ComputerPlayer do
-  # describe 'best_move' do
-  #   context "first_move" do
-  #     let(:player) { AbstractPlayer.new("O") }
-  #     let(:computer) { ComputerPlayer.new(1, "X") }
-  #     let(:game) { GameInteractor.new(player1: computer, 
-  #                                     player2: player ) }
-  #     it 'plays a corner' do
-  #       game.player1.get_move(game).should eq Indices.new(0,0)
-  #     end
-  #   end
+  describe 'get_move' do
+    before do
+      @computer = ComputerPlayer.new(:hard, "O")
+      @opponent = AbstractPlayer.new("X")
+      @game = Game.new(player1: @opponent,
+                       player2: @computer)
+    end
 
-  #   context "counter to first move" do
-  #     context "countering a center move" do
-  #       let(:player) { AbstractPlayer.new("X") }
-  #       let(:computer) { ComputerPlayer.new(1, "O") }
-  #       let(:game) { GameInteractor.new(player1: player, 
-  #                                       player2: computer) }
-        
-  #       it 'plays a corner' do
-  #         game.make_move(1,1)
-  #         game.player2.get_move(game).should eq Indices.new(0,0)
-  #       end
-  #     end
-  #   end
-  # end
+    def computer_turn
+      @game.players = [@computer, @opponent]
+    end
+
+    def opponent_turn
+      @game.players = [@opponent, @computer]
+    end
+
+    def corners
+      [0, 2, 6, 8]
+    end
+
+    context 'computer goes first' do
+      it 'plays a corner' do
+        computer_turn
+        corners.should include @game.player2.get_move(@game)
+      end
+    end
+
+    context "computer goes second" do
+      context "countering a center move" do
+        it 'plays a corner' do
+          @game.make_move(4)
+          corners.should include @game.player2.get_move(@game)
+        end
+      end
+    end
+  end
 end
