@@ -48,7 +48,7 @@ describe Game do
 
     context 'vertical win' do
       before do
-        game.stub(:columns).and_return(["O", "O", "O"])
+        game.stub(:columns).and_return([["O", "O", "O"]])
       end
 
       it 'is truthy' do
@@ -63,7 +63,7 @@ describe Game do
 
     context 'diagonal win' do
       before do
-        game.stub(:diagonals).and_return(["X", "X", "X"])
+        game.stub(:diagonals).and_return([["X", "X", "X"]])
       end
 
       it 'is truthy' do
@@ -82,9 +82,12 @@ describe Game do
         game.stub(:board).and_return(["X", "X", "O"])
       end
 
-      it 'recognises draw when all cells are marked' do
-
+      it 'is truthy' do
         game.over?.should be_true
+      end
+
+      it 'does not set a winner' do
+        game.over?
         game.winner.should be_false
       end
     end
