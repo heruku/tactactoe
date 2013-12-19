@@ -42,10 +42,10 @@ class Game
   end
 
   def copy
-    GameInteractor.new( player1: player1,
-                        player2: player2,
-                        players: players,
-                        board: board.dup )
+    Game.new( player1: player1,
+              player2: player2,
+              players: players,
+              board: Marshal.load(Marshal.dump(board)) )
   end
 
 
