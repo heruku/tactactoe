@@ -37,8 +37,8 @@ class GamePresenter
     player1 = get_player("X".blue)
     print "Choose the second player(1-human, 2-computer): "
     player2 = get_player("O".red)
-    @game = Game.new(player1: player1,
-                               player2: player2)
+    @game = TicTacToe::Game.new(player1: player1,
+                                player2: player2)
   end
 
   def build_board
@@ -79,9 +79,9 @@ class GamePresenter
     print "Select difficulty(1-easy, 2-hard): "
     input = gets.chomp.to_i
     if input == 1
-      player = ComputerPlayer.new(:easy, mark)
+      player = TicTacToe::ComputerPlayer.new(:easy, mark)
     elsif input == 2
-      player = ComputerPlayer.new(:hard, mark)
+      player = TicTacToe::ComputerPlayer.new(:hard, mark)
     else
       print "Invalid input, try again: "
       get_computer_player(mark)
