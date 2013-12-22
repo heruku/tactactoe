@@ -5,7 +5,7 @@ module TicTacToe
     DEFAULTS = {board: (1..9).to_a.map(&:to_s)}
 
     def initialize(opts)
-      opts = DEFAULTS.merge(opts)
+      opts     = DEFAULTS.merge(opts)
       @board   = opts.fetch(:board)
       @player1 = opts.fetch(:player1)
       @player2 = opts.fetch(:player2)
